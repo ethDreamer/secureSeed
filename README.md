@@ -8,3 +8,8 @@ This code allows you to generate your own BIP39 seed by generating the 256 bits 
 WARNING
 It is recommended you only execute this code on an isolated machine that will NEVER be connected to the internet.  It's possible your machine could be compromised and if connected to the internet an attacker could conceivably gain access to your secret seed if you've used this code to store it.  To ensure your security it is recommended that this code be executed on an isolated raspberry pie that you destroy or at least wipe after using it to generate your secure seed.
 
+
+DISCLAIMER
+The majority of this code is dedicated to calculating the SHA256 checksum of the seed.  I did not write that code, I copied it from another github user hak8or:
+https://gist.github.com/hak8or/8794351
+
