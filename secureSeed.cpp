@@ -150,78 +150,32 @@ int main(int argc, char* argv[])
 	// This will hold all the blocks.
 	vector<unsigned long> block;
 
-	// First convert this guy to a vector of strings representing 8 bit variables.
-// block = convert_to_binary(message);
+    ifstream bitFile("./seedBits.dat");
+    if (!bitFile) {
+        cout << "Error opening ./seedBits.dat for reading\n";
+        exit(1);
+    }
 
-    bitset<8> s01 (string("11110000"));
-    bitset<8> s02 (string("11110000"));
-    bitset<8> s03 (string("11110000"));
-    bitset<8> s04 (string("11110000"));
-    bitset<8> s05 (string("11110000"));
-    bitset<8> s06 (string("11110000"));
-    bitset<8> s07 (string("11110000"));
-    bitset<8> s08 (string("11110000"));
-    bitset<8> s09 (string("11110000"));
-    bitset<8> s10 (string("11110000"));
-    bitset<8> s11 (string("11110000"));
-    bitset<8> s12 (string("11110000"));
-    bitset<8> s13 (string("11110000"));
-    bitset<8> s14 (string("11110000"));
-    bitset<8> s15 (string("11110000"));
-    bitset<8> s16 (string("11110000"));
-    bitset<8> s17 (string("11110000"));
-    bitset<8> s18 (string("11110000"));
-    bitset<8> s19 (string("11110000"));
-    bitset<8> s20 (string("11110000"));
-    bitset<8> s21 (string("11110000"));
-    bitset<8> s22 (string("11110000"));
-    bitset<8> s23 (string("11110000"));
-    bitset<8> s24 (string("11110000"));
-    bitset<8> s25 (string("11110000"));
-    bitset<8> s26 (string("11110000"));
-    bitset<8> s27 (string("11110000"));
-    bitset<8> s28 (string("11110000"));
-    bitset<8> s29 (string("11110000"));
-    bitset<8> s30 (string("11110000"));
-    bitset<8> s31 (string("11110000"));
-    bitset<8> s32 (string("11110000"));
+    char bitLine[256]; int nlines = 0;
+    while (bitFile) {
+        bitFile.getline(bitLine, 256);
+        std::string bitString(bitLine);
+        if (bitString.length() == 0)
+            continue;
+        if (bitString.length() != 8) {
+            printf("Error: line '%s' is not correct length\n", bitLine);
+            exit(1);
+        }
+        bitset<8> bs (bitString);
+        block.push_back(bs.to_ulong());
+        nlines++;
+    }
 
-
-    block.push_back(s01.to_ulong());
-    block.push_back(s02.to_ulong());
-    block.push_back(s03.to_ulong());
-    block.push_back(s04.to_ulong());
-    block.push_back(s05.to_ulong());
-    block.push_back(s06.to_ulong());
-    block.push_back(s07.to_ulong());
-    block.push_back(s08.to_ulong());
-    block.push_back(s09.to_ulong());
-    block.push_back(s10.to_ulong());
-    block.push_back(s11.to_ulong());
-    block.push_back(s12.to_ulong());
-    block.push_back(s13.to_ulong());
-    block.push_back(s14.to_ulong());
-    block.push_back(s15.to_ulong());
-    block.push_back(s16.to_ulong());
-    block.push_back(s17.to_ulong());
-    block.push_back(s18.to_ulong());
-    block.push_back(s19.to_ulong());
-    block.push_back(s20.to_ulong());
-    block.push_back(s21.to_ulong());
-    block.push_back(s22.to_ulong());
-    block.push_back(s23.to_ulong());
-    block.push_back(s24.to_ulong());
-    block.push_back(s25.to_ulong());
-    block.push_back(s26.to_ulong());
-    block.push_back(s27.to_ulong());
-    block.push_back(s28.to_ulong());
-    block.push_back(s29.to_ulong());
-    block.push_back(s30.to_ulong());
-    block.push_back(s31.to_ulong());
-    block.push_back(s32.to_ulong());
-
-//    printf("add:   [%s]\n", show_as_binary(add.to_ulong()).c_str());
-//    printf("add32: [%s]\n", show_as_binary32(add.to_ulong()).c_str());
+    if (nlines != 32) {
+        printf("Error: ./seedBits.dat does not have 32 lines [%i]\n", nlines);
+        exit(1);
+    }
+    bitFile.close();
 
 
     string block256 = "";
